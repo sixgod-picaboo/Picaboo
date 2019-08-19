@@ -6,4 +6,5 @@ public class A {
 	public void test() {
 		
 	}
+	String cString;
 }
