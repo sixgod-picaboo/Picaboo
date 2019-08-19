@@ -4,7 +4,7 @@ public class A {
 	String A;
 	String B;
 	public void test() {
-		int a = 1;
+		
 	}
 	String cString;
 }
