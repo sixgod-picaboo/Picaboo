@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sixgod.dao.CarDao">
+	<select id="queryCartsByUserId" parameterType="java.lang.String" resultType="shopping_carts" >
+		SELECT sc.goods_id, goods_num, sc.goods_size, goods_name, goods_price FROM shopping_cart sc, goods gs WHERE sc.user_id = #{id} AND sc.goods_id = gs.goods_id AND sc.goods_size = gs.goods_size;
+	</select>
+	
+	<delete id="delCartsSingleByGoodsIdAndGoodsSizeAndUserId">
+		DELETE FROM shopping_cart WHERE user_id = #{0} and goods_id =#{1} and goods_size = #{2};
+	</delete>
+	
+	<delete id="cleanCartsByUserId">
+		delete from shopping_cart where user_id = #{id};
+	</delete>
+	
+	<update id="updateCartsNumByUserIdAndGoodsIdAndGoodsSizeAndGoodsSize">
+		UPDATE shopping_cart SET goods_num = #{3} WHERE user_id = #{0} and goods_id = #{1}  and goods_size=#{2};
+	</update>
+	
+	<select id="queryPhotoPathByGoodsId" parameterType="java.lang.String" resultType="goods_path">
+		select gphoto_path from goods_photo where goods_id = #{id} limit 0,1;
+	</select>
+</mapper>

@@ -10,37 +10,37 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Place favicon.ico in the root directory -->
-<link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="statics/img/favicon.ico">
 <!--All Css Here-->
 
 <!-- Ionicons Font CSS-->
-<link rel="stylesheet" href="css/ionicons.min.css">
+<link rel="stylesheet" href="statics/css/ionicons.min.css">
 <!-- Font Awesome CSS-->
-<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="statics/css/font-awesome.min.css">
 
 <!-- Animate CSS-->
-<link rel="stylesheet" href="css/animate.css">
+<link rel="stylesheet" href="statics/css/animate.css">
 <!-- Owl Carousel CSS-->
-<link rel="stylesheet" href="css/owl.carousel.min.css">
+<link rel="stylesheet" href="statics/css/owl.carousel.min.css">
 <!-- Nice Select CSS-->
-<link rel="stylesheet" href="css/nice-select.css">
+<link rel="stylesheet" href="statics/css/nice-select.css">
 <!-- Slick CSS-->
-<link rel="stylesheet" href="css/slick.css">
+<link rel="stylesheet" href="statics/css/slick.css">
 <!-- Meanmenu CSS-->
-<link rel="stylesheet" href="css/meanmenu.min.css">
+<link rel="stylesheet" href="statics/css/meanmenu.min.css">
 <!-- Venobox CSS-->
-<link rel="stylesheet" href="css/venobox.css">
+<link rel="stylesheet" href="statics/css/venobox.css">
 <!-- Bootstrap CSS-->
-<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="statics/css/bootstrap.min.css">
 <!-- Style CSS -->
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="statics/css/style.css">
 <!-- Responsive CSS -->
-<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="statics/css/responsive.css">
 <!-- Modernizr Js -->
-<script src="js/vendor/modernizr-2.8.3.min.js"></script>
-<script src="js/ie8-responsive-file-warning.js"></script>
+<script src="statics/js/vendor/modernizr-2.8.3.min.js"></script>
+<script src="statics/js/ie8-responsive-file-warning.js"></script>
 <!-- [endif]-->
-<script src="js/ie-emulation-modes-warning.js"></script>
+<script src="statics/js/ie-emulation-modes-warning.js"></script>
 </head>
 <body>
 
@@ -248,6 +248,7 @@
 
 							<script type="text/javascript">
 								$(function(){
+									
 									var messg = '<%=request.getAttribute("messg")%>';
 									if(messg!='null'){
 										alert(messg)
@@ -269,7 +270,7 @@
 							                  	     
 							            //$.ajaxSettings.async = true;
 							         var request=<%=session.getAttribute("typelist")%>
-								queryCarts();
+									queryCarts();
 
 									$("#update_cart").click(function() {
 
@@ -284,22 +285,16 @@
 								});
 
 								function queryCarts() {
-									$
-											.getJSON(
-													"CarServlet",
-													"op=doQueryCarts",
-													function(data) {
+									$.getJSON("querycarts.html",function(data) {
 														var str = "";
 														var xiaoji = 0;
 														var zongjia = "";
 
 														if (data.length == 0) {
 
-															$(".tocheck")
-																	.hide();
+															$(".tocheck").hide();
 														} else {
-															$(".tocheck")
-																	.show();
+															$(".tocheck").show();
 														}
 														for (var i = 0; i < data.length; i++) {
 															str = str
@@ -335,141 +330,50 @@
 																.click(
 																		function() {
 																			var id = this.id;
-																			var goods_id = $(
-																					"#del"
-																							+ id)
-																					.attr(
-																							'name');
-																			var goods_size = $(
-																					"#"
-																							+ id)
-																					.parents(
-																							"tr")
-																					.find(
-																							"td")
-																					.eq(
-																							4)
-																					.text();
-																			$(
-																					"#"
-																							+ id)
-																					.val(
-																							$(
-																									"#"
-																											+ id)
-																									.val() > 0 ? $(
-																									"#"
-																											+ id)
-																									.val()
-																									: 1);
+																			var goods_id = $("#del"+ id).attr('name');
+																			var goods_size = $("#"+ id).parents("tr").find("td").eq(4).text();
+																			$("#"+ id).val(
+																			$("#"+ id).val() > 0 ? $("#"+ id).val(): 1);
 
-																			var num = $(
-																					"#"
-																							+ id)
-																					.val();
-																			$
-																					.get(
-																							"CarServlet",
-																							"op=updateCartNum&goodsid="
-																									+ goods_id
-																									+ "&goodssize="
-																									+ goods_size
-																									+ "&goodsnum="
-																									+ num,
-																							function(
-																									rs) {
-
-																								$(
-																										"#"
-																												+ id)
-																										.val(
-																												num);
-
+																			var num = $("#"+ id).val();
+																			$.get("CarServlet","op=updateCartNum&goodsid="+ goods_id+ "&goodssize="+ goods_size+ "&goodsnum="+ num,
+																							function(rs) {
+																								$("#"+ id).val(num);
 																							});
 																			var price = parseFloat(data[id].goods_price);
-																			var prices = parseFloat(num)
-																					* parseFloat(price);
-																			$(
-																					"."
-																							+ id)
-																					.html(
-																							prices);
+																			var prices = parseFloat(num)* parseFloat(price);
+																			$("."+ id).html(prices);
 																			var lastprice = 0;
 																			for (var i = 0; i < data.length; i++) {
-																				var price2 = $(
-																						"."
-																								+ i)
-																						.text();
+																				var price2 = $("."+ i).text();
 																				lastprice += parseFloat(price2);
 																			}
-																			$(
-																					"#xiaoji")
-																					.html(
-																							"￥"
-																									+ lastprice);
-																			$(
-																					"#zuizhong")
-																					.html(
-																							"￥"
-																									+ lastprice);
+																			$("#xiaoji").html("￥"+ lastprice);
+																			$("#zuizhong").html("￥"+ lastprice);
 
 																			//location.href="CarServlet?op=updateCartNum&goodsid="+goods_id+"&goodssize="+goods_size+"&goodsnum="+num;
 
 																		});
 
-														$(".dela")
-																.click(
-																		function() {
-																			var id = this.id;
-																			var goods_id = $(
-																					"#"
-																							+ id)
-																					.attr(
-																							'name');
-																			var goods_size = $(
-																					"#"
-																							+ id)
-																					.parents(
-																							"tr")
-																					.find(
-																							"td")
-																					.eq(
-																							4)
-																					.text();
+														$(".dela").click(function() {
+																	var id = this.id;
+																	var goods_id = $("#"+ id).attr('name');
+																	var goods_size = $("#"+ id).parents("tr").find("td").eq(4).text();
+																	$.get("delsinglecarts.html","goodsid="+ goods_id+ "&goodssize="+ goods_size,function(rs) {
+																		queryCarts();
+																			});
+																});
 
-																			$
-																					.get(
-																							"CarServlet",
-																							"op=delSingleCarts&goodsid="
-																									+ goods_id
-																									+ "&goodssize="
-																									+ goods_size,
-																							function(
-																									rs) {
+														$(".clean").click(function() {
+																			$.get("CarServlet","op=cleanCarts",function(rs) {
+																				queryCarts();
 
-																								queryCarts();
-
-																							});
+																			});
 																		});
 
-														$(".clean")
-																.click(
-																		function() {
-																			$
-																					.get(
-																							"CarServlet",
-																							"op=cleanCarts",
-																							function(
-																									rs) {
+																});
 
-																								queryCarts();
-
-																							});
-																		});
-
-													});
-
-								}
+											}
 							</script>
 							
 							<div class="row">
